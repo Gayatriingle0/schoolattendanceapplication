@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Attendance Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .container {
+            margin: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+        input, select, button {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            max-width: 300px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>School Attendance Management System</h1>
+</header>
+
+<div class="container">
+    <div id="login-section">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Enter Username">
+        <input type="password" id="password" placeholder="Enter Password">
+        <button onclick="login()">Login</button>
+    </div>
+
+    <div id="attendance-section" class="hidden">
+        <div class="button-container">
+            <button onclick="logout()">Logout</button>
+        </div>
+        <h2>Attendance</h2>
+        <input type="text" id="studentName" placeholder="Enter Student Name">
+        <select id="attendanceStatus">
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+        </select>
+        <button onclick="addAttendance()">Add Attendance</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Student Name</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="attendanceTable">
+                <tr id="noRecords">
+                    <td colspan="3" style="text-align: center;">No records yet</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    const validUsername = "class 10";
+    const validPassword = "3223";
+
+    function login() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        if (username === validUsername && password === validPassword) {
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('attendance-section').classList.remove('hidden');
+        } else {
+            alert('Invalid username or password');
+        }
+    }
+
+    function logout() {
+        document.getElementById('login-section').classList.remove('hidden');
+        document.getElementById('attendance-section').classList.add('hidden');
+        document.getElementById('username').value = "";
+        document.getElementById('password').value = "";
+    }
+
+    function addAttendance() {
+        const studentName = document.getElementById('studentName').value.trim();
+        const attendanceStatus = document.getElementById('attendanceStatus').value;
+        const attendanceTable = document.getElementById('attendanceTable');
+        const noRecords = document.getElementById('noRecords');
+
+        if (!studentName) {
+            alert('Please enter a student name');
+            return;
+        }
+
+        const date = new Date().toLocaleDateString();
+
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td>${date}</td>
+            <td>${studentName}</td>
+            <td>${attendanceStatus}</td>
+        `;
+        attendanceTable.appendChild(newRow);
+
+        if (noRecords) {
+            noRecords.remove();
+        }
+
+        document.getElementById('studentName').value = "";
+    }
+</script>
+
+</body>
+</html>
